@@ -67,7 +67,7 @@ if idx >= 0:
         st.markdown('## Image')
         st.image(image)
     with col2:
-        st.markdown('## Masque réelle')
+        st.markdown('## Masque réel')
         st.image(mask)
     with col3:
         st.markdown('## Masque prédit')
