@@ -2,7 +2,8 @@ import streamlit as st
 from data import Data
 from streamlit_image_select import image_select
 import serializer
-import api
+import requests
+
 
 st.set_page_config(
     page_title="Prediction d'un masque",
@@ -23,8 +24,8 @@ def get_dt():
 
 
 st.write("""
-# My first app
-Hello *world!*
+# Prédiction de masque
+Choisissez une image dans la liste ci dessous et comparez le masque réelle au masque prédit par le model
 """)
 
 if "data" not in st.session_state:
@@ -49,7 +50,16 @@ if idx >= 0:
     mask = st.session_state['data'].get_mask(idx, mask_to_y=False)
     json = serializer.serialize(image)
 
-    predited_mask = api.predict(json)
+    response = requests.post(
+        "https://api-predict.codeheures.fr/",
+        headers={
+            'Content-type': 'application/json',
+            'Accept': 'application/json'
+        },
+        json={"image": json})
+    json_response = response.json()
+    serialized_predited_mask = json_response["predicted_mask"]
+    predicted_mask = serializer.deserialize(serialized_predited_mask)
 
     col1, col2, col3 = st.columns(3)
 
@@ -61,4 +71,4 @@ if idx >= 0:
         st.image(mask)
     with col3:
         st.markdown('## Masque prédit')
-        st.image(predited_mask)
+        st.image(predicted_mask)
