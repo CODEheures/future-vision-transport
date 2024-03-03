@@ -31,10 +31,10 @@ Choisissez une image dans la liste ci dessous et comparez le masque réelle au m
 if "data" not in st.session_state:
     st.session_state['data'] = Data()
 
-if st.button('Afficher 16 images au hazard'):
+if st.button('Afficher 4 images au hazard'):
     st.session_state['data'].shuffle()
 
-img_list = list(st.session_state['data'].df.image[0:16])
+img_list = list(st.session_state['data'].df.image[0:4])
 images = [st.session_state['data'].images_dir + name for name in img_list]
 
 idx = image_select(
