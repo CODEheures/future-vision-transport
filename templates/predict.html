@@ -1,0 +1,9 @@
+{% extends "home.html" %}
+{% block predict %} 
+    <div class="grid grid-cols-3 gap-4 mt-6">
+      <img class="w-full shadow shadow-black" src="data:image/png;base64,{{image}}">
+      <img class="w-full shadow shadow-black" src="data:image/png;base64,{{mask_true}}">
+      <img class="w-full shadow shadow-black" src="data:image/png;base64,{{mask_predict}}">
+    </div>
+  </div>
+{% endblock %}
