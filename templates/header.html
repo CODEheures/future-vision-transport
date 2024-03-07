@@ -10,6 +10,6 @@
 
 <div class="grid grid-cols-4 gap-4 place-items-center">
 {% for image in images %}
-    <img onclick="window.location.href='/predict?idx={{ loop.index0 }}' ;" class="w-32 h-32 object-cover aspect-square shadow shadow-black rounded cursor-pointer hover:scale-105 transition-transform" src="data:image/png;base64,{{image}}">
+    <img onclick="window.location.href='/predict?idx={{ loop.index0 }}' ;" class="w-48 h-48 object-cover aspect-square shadow shadow-black rounded cursor-pointer hover:scale-105 transition-transform" src="data:image/png;base64,{{image}}">
 {% endfor %}
 </div>
