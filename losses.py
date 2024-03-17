@@ -16,7 +16,7 @@ class DiceLoss(tf.keras.losses.Loss):
     def call(self, y_true, y_pred):
         y_true = tf.cast(y_true, dtype=tf.float32)
         y_pred = tf.cast(y_pred, dtype=tf.float32)
-        intersection = tf.reduce_sum( y_true * y_pred, axis=(1, 2, 3))
+        intersection = tf.reduce_sum(y_true * y_pred, axis=(1, 2, 3))
         denominator = tf.reduce_sum(y_pred**2, axis=(1, 2, 3)) + tf.reduce_sum(y_true**2, axis=(1, 2, 3))
         dice = 2 * intersection/(denominator + self.smooth)
         return 1 - dice
@@ -39,7 +39,7 @@ class JaccardLoss(tf.keras.losses.Loss):
     def call(self, y_true, y_pred):
         y_true = tf.cast(y_true, dtype=tf.float32)
         y_pred = tf.cast(y_pred, dtype=tf.float32)
-        intersection = tf.reduce_sum( y_true * y_pred, axis=(1, 2, 3))
+        intersection = tf.reduce_sum(y_true * y_pred, axis=(1, 2, 3))
         denominator = tf.reduce_sum(y_pred**2, axis=(1, 2, 3)) + tf.reduce_sum(y_true**2, axis=(1, 2, 3))
         dice = 2 * intersection/(denominator + self.smooth)
         jaccard = dice / (2 - dice)
