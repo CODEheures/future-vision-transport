@@ -7,15 +7,19 @@ import os
 
 class Data():
 
-    def __init__(self, images_dir='test/images/', masks_dir='test/masks/', make_df=True):
+    def __init__(self, images_dir='test/images/',
+                 masks_dir='test/masks/',
+                 make_df=True):
         # Init vars
         self.images_dir = images_dir
         self.masks_dir = masks_dir
         infos = []
 
         if make_df:
-            images = sorted([img for img in os.listdir(self.images_dir) if img.endswith('png')])
-            masks = sorted([mask for mask in os.listdir(self.masks_dir) if mask.endswith('png')])
+            images = sorted([img for img in os.listdir(self.images_dir)
+                            if img.endswith('png')])
+            masks = sorted([mask for mask in os.listdir(self.masks_dir)
+                            if mask.endswith('png')])
 
             for i in range(len(images)):
                 infos.append([images[i], masks[i]])
