@@ -1,0 +1,36 @@
+name: Deploy to Amazon EC2
+
+on:
+  push:
+    branches: [ "main" ]
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    environment: production
+    env:
+      ENABLE_PREDICT: true
+      ADDR_PREDICT: ec2-13-49-224-144.eu-north-1.compute.amazonaws.com
+      SECRET_PREDICT: ${{ secrets.EC2_PREDICT_SERVER_PEM }}
+      PEM_PREDICT: predict_server.pem
+      SH_PREDICT: script-predict-server.sh
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Deploy on predict serveur
+      if: ${{ env.ENABLE_PREDICT == 'true' }}
+      run: |
+        echo "${{ env.SECRET_PREDICT }}" > ${{ env.PEM_PREDICT }}
+        chmod 400 ${{ env.PEM_PREDICT }}
+        mkdir -p ~/.ssh/ && touch ~/.ssh/known_hosts
+        ssh-keyscan ${{ env.ADDR_PREDICT }} >> ~/.ssh/known_hosts
+        eval $(ssh-agent)
+        ssh-add - <<< "${{ env.SECRET_PREDICT }}"
+        ssh -T -i "${{ env.PEM_PREDICT }}" ubuntu@${{ env.ADDR_PREDICT }} 'bash -s' < ./deploy/${{ env.SH_PREDICT }}
+    
